@@ -46,15 +46,14 @@ public class Utils {
 		return (float)(rng.nextGaussian());
 	}
 
-	public static float rngFloat (float max) {
-		return rngFloat() * max;
+	public static float rngFloat (float mean) {
+		return mean + rngFloat();
+	}
+	public static float rngFloat (float mean, float scale) {
+		return mean + rngFloat() * scale;
 	}
 
-	public static float roundedRngFloat (float scale, float size) {
-		return Utils.roundToSize(Utils.rngFloat(scale), size);
-	}
-
-	public static float rngFloat (float min, float max) {
-		return min + rngFloat() * (max - min);
+	public static float roundedRngFloat (float mean, float scale, float size) {
+		return Utils.roundToSize(Utils.rngFloat(mean, scale), size);
 	}
 }

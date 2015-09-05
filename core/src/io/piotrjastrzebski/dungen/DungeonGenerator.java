@@ -61,14 +61,11 @@ public class DungeonGenerator extends BaseScreen {
 		float spawnHeight = settings.getSpawnHeight();
 		for (int i = 0; i < settings.getCount(); i++) {
 			Room room = new Room(roomID++, gridSize);
-			float w = Utils.roundedRngFloat(roomWidth, gridSize);
-			if (w < 0)
-				w = -w;
-			float h = Utils.roundedRngFloat(roomHeight, gridSize);
-			if (h < 0)
-				h = -h;
-			if (w < gridSize || h < gridSize)
+			float w = Utils.roundedRngFloat(roomWidth, gridSize, gridSize);
+			float h = Utils.roundedRngFloat(roomHeight, gridSize, gridSize);
+			if (w < gridSize || h < gridSize) {
 				continue;
+			}
 			Utils.roundedPointInEllipse(spawnWidth, spawnHeight, gridSize, tmp);
 			room.set(tmp.x, tmp.y, w, h);
 			createBody(room);
