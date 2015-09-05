@@ -103,13 +103,13 @@ public class DungeonGenerator extends BaseScreen {
 		room.body = body;
 	}
 
-	int pIters = 1;
+	int pIters = 8;
 
 	@Override public void render (float delta) {
 		super.render(delta);
 		boolean settled = true;
 		for (int i = 0; i < pIters; i++) {
-			b2d.step(0.1f, 12, 8);
+			b2d.step(0.1f, 6, 4);
 			for (Room room : rooms) {
 				if (!room.isSleeping()) {
 					settled = false;
@@ -437,10 +437,10 @@ public class DungeonGenerator extends BaseScreen {
 			drawBodies = !drawBodies;
 			break;
 		case Input.Keys.Q:
-			if (pIters == 1) {
+			if (pIters == 8) {
 				pIters = 100;
 			} else {
-				pIters = 1;
+				pIters = 8;
 			}
 			break;
 		}
