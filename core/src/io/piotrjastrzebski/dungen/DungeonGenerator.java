@@ -34,14 +34,8 @@ public class DungeonGenerator extends BaseScreen {
 		super();
 		b2d = new World(new Vector2(), true);
 		b2dd = new Box2DDebugRenderer();
-		settings = new GenSettings()
-			.setGridSize(.25f)
-			.spawnCount(150)
-			.setSpawnWidth(20).setSpawnHeight(10)
-			.setRoomWidth(4).setRoomHeight(4)
-			.setMainRoomScale(1.15f)
-			.setReconnectChance(.2f)
-			.setHallwaysWidth(3);
+		settings = new GenSettings().setGridSize(.25f).spawnCount(150).setSpawnWidth(20).setSpawnHeight(10).setRoomWidth(4)
+			.setRoomHeight(4).setMainRoomScale(1.15f).setReconnectChance(.2f).setHallwaysWidth(3);
 
 		grid = new Grid();
 		restart();
@@ -68,10 +62,13 @@ public class DungeonGenerator extends BaseScreen {
 		for (int i = 0; i < settings.getCount(); i++) {
 			Room room = new Room(roomID++, gridSize);
 			float w = Utils.roundedRngFloat(roomWidth, gridSize);
-			if (w < 0) w = -w;
+			if (w < 0)
+				w = -w;
 			float h = Utils.roundedRngFloat(roomHeight, gridSize);
-			if (h < 0) h = -h;
-			if (w < gridSize || h < gridSize) continue;
+			if (h < 0)
+				h = -h;
+			if (w < gridSize || h < gridSize)
+				continue;
 			Utils.roundedPointInEllipse(spawnWidth, spawnHeight, gridSize, tmp);
 			room.set(tmp.x, tmp.y, w, h);
 			createBody(room);
@@ -107,6 +104,7 @@ public class DungeonGenerator extends BaseScreen {
 	}
 
 	int pIters = 100;
+
 	@Override public void render (float delta) {
 		super.render(delta);
 		boolean settled = true;
@@ -118,10 +116,11 @@ public class DungeonGenerator extends BaseScreen {
 					break;
 				}
 			}
-			if (settled) break;
+			if (settled)
+				break;
 		}
 
-		if (drawBodies){
+		if (drawBodies) {
 			b2dd.render(b2d, gameCamera.combined);
 		}
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -197,14 +196,15 @@ public class DungeonGenerator extends BaseScreen {
 
 	Array<Room> mainRooms = new Array<>();
 	RoomGraph graph = new RoomGraph();
+
 	private void triangulate () {
 		DelaunayTriangulator triangulator = new DelaunayTriangulator();
 
 		float[] points = new float[mainRooms.size * 2];
-		for (int i = 0; i < points.length; i+=2) {
+		for (int i = 0; i < points.length; i += 2) {
 			Room room = mainRooms.get(i / 2);
 			points[i] = room.cx();
-			points[i+1] = room.cy();
+			points[i + 1] = room.cy();
 		}
 
 		ShortArray indicies = triangulator.computeTriangles(points, 0, points.length, false);
@@ -256,6 +256,7 @@ public class DungeonGenerator extends BaseScreen {
 	}
 
 	Array<HallwayPath> paths = new Array<>();
+
 	private void createHallways () {
 		Array<RoomEdge> edges = graph.getEdges();
 		for (RoomEdge e : edges) {
@@ -271,9 +272,9 @@ public class DungeonGenerator extends BaseScreen {
 				if (MathUtils.isEqual(bA.y, bB.y + bB.height) || MathUtils.isEqual(bA.y + bA.height, bB.y)) {
 					continue;
 				}
-				min = (bA.x < bB.x)?bB.x:bA.x;
-				max = (bA.x + bA.width < bB.x + bB.width)?bA.x + bA.width:bB.x + bB.width;
-				mid = (min + max) /2;
+				min = (bA.x < bB.x) ? bB.x : bA.x;
+				max = (bA.x + bA.width < bB.x + bB.width) ? bA.x + bA.width : bB.x + bB.width;
+				mid = (min + max) / 2;
 
 				if (bA.y > bB.y) {
 					path.set(mid, bA.y, mid, bB.y + bB.height);
@@ -286,9 +287,9 @@ public class DungeonGenerator extends BaseScreen {
 					continue;
 				}
 
-				min = (bA.y < bB.y)?bB.y:bA.y;
-				max = (bA.y + bA.height < bB.y + bB.height)?bA.y + bA.height:bB.y + bB.height;
-				mid = (min + max) /2;
+				min = (bA.y < bB.y) ? bB.y : bA.y;
+				max = (bA.y + bA.height < bB.y + bB.height) ? bA.y + bA.height : bB.y + bB.height;
+				mid = (min + max) / 2;
 
 				if (bA.x > bB.x) {
 					path.set(bA.x, mid, bB.x + bB.width, mid);
@@ -353,7 +354,8 @@ public class DungeonGenerator extends BaseScreen {
 	private void addHallwayRooms () {
 		for (HallwayPath path : paths) {
 			for (Room room : rooms) {
-				if (room.isMain) continue;
+				if (room.isMain)
+					continue;
 				if (path.intersects(room)) {
 					room.isHallway = true;
 				}
@@ -388,7 +390,8 @@ public class DungeonGenerator extends BaseScreen {
 	}
 
 	private void createRoom (float x, float y, float size) {
-		if (findRoom(x + size/2, y + size/2) != null) return;
+		if (findRoom(x + size / 2, y + size / 2) != null)
+			return;
 		Room room = new Room(roomID++, size);
 		room.bounds.set(x, y, size, size);
 		room.isExtra = true;

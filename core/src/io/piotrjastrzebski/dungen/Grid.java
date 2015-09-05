@@ -14,13 +14,13 @@ public class Grid {
 	public void draw (ShapeRenderer renderer) {
 		renderer.setColor(color);
 		int hSegments = (int)(w / size);
-		for (int i = 0; i < hSegments/2; i++) {
+		for (int i = 0; i < hSegments / 2; i++) {
 			float x = i * size;
 			renderer.line(x, -h / 2, x, h / 2);
 			renderer.line(-x, -h / 2, -x, h / 2);
 		}
 		int vSegments = (int)(h / size);
-		for (int i = 0; i < vSegments/2; i++) {
+		for (int i = 0; i < vSegments / 2; i++) {
 			float y = i * size;
 			renderer.line(-w / 2, y, w / 2, y);
 			renderer.line(-w / 2, -y, w / 2, -y);

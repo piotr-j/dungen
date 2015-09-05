@@ -8,13 +8,11 @@ import io.piotrjastrzebski.dungen.DungenGame;
 
 public class HtmlLauncher extends GwtApplication {
 
-        @Override
-        public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(DungenGame.WIDTH, DungenGame.HEIGHT);
-        }
+	@Override public GwtApplicationConfiguration getConfig () {
+		return new GwtApplicationConfiguration(DungenGame.WIDTH, DungenGame.HEIGHT);
+	}
 
-        @Override
-        public ApplicationListener getApplicationListener () {
-                return new DungenGame();
-        }
+	@Override public ApplicationListener getApplicationListener () {
+		return new DungenGame();
+	}
 }

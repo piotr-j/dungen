@@ -37,15 +37,15 @@ public class HallwayPath {
 		}
 	}
 
-	public void set(float sx, float sy, float ex, float ey) {
+	public void set (float sx, float sy, float ex, float ey) {
 		start.set(sx, sy);
 		end.set(ex, ey);
- 		Utils.roundToSize(start, gridSize);
+		Utils.roundToSize(start, gridSize);
 		Utils.roundToSize(end, gridSize);
 		hasBend = false;
 	}
 
-	public void set(float sx, float sy, float bx, float by, float ex, float ey) {
+	public void set (float sx, float sy, float bx, float by, float ex, float ey) {
 		start.set(sx, sy);
 		bend.set(bx, by);
 		end.set(ex, ey);
@@ -57,6 +57,7 @@ public class HallwayPath {
 
 	private static Polygon poly = new Polygon();
 	private static float[] verts = new float[8];
+
 	public boolean intersects (Room room) {
 		Rectangle b = room.bounds;
 		verts[0] = b.x;
@@ -73,8 +74,8 @@ public class HallwayPath {
 		poly.setVertices(verts);
 		boolean intersects;
 		if (hasBend) {
-			intersects = Intersector.intersectSegmentPolygon(start, bend, poly)
-				|| Intersector.intersectSegmentPolygon(bend, end, poly);
+			intersects =
+				Intersector.intersectSegmentPolygon(start, bend, poly) || Intersector.intersectSegmentPolygon(bend, end, poly);
 		} else {
 			intersects = Intersector.intersectSegmentPolygon(start, end, poly);
 		}

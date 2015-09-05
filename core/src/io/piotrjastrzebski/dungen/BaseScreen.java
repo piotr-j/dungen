@@ -93,7 +93,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 		if (keycode == Input.Keys.F1) {
 			debugStage = !debugStage;
 			stage.setDebugAll(debugStage);
-			Gdx.app.log(TAG, "F1 - Stage debug is " + (debugStage?"enabled":"disabled"));
+			Gdx.app.log(TAG, "F1 - Stage debug is " + (debugStage ? "enabled" : "disabled"));
 		}
 		return false;
 	}

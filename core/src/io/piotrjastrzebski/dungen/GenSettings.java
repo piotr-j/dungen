@@ -12,7 +12,8 @@ public class GenSettings {
 	private float hallwaysWidth;
 	private int count;
 
-	public GenSettings () {}
+	public GenSettings () {
+	}
 
 	public float getHallwaysWidth () {
 		return hallwaysWidth;
