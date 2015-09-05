@@ -103,7 +103,7 @@ public class DungeonGenerator extends BaseScreen {
 		room.body = body;
 	}
 
-	int pIters = 100;
+	int pIters = 1;
 
 	@Override public void render (float delta) {
 		super.render(delta);
@@ -138,8 +138,10 @@ public class DungeonGenerator extends BaseScreen {
 		for (Room room : rooms) {
 			if (room.isSleeping() && !room.isExtra && !room.isHallway && !room.isMain) {
 				renderer.setColor(0.3f, 0.3f, 0.3f, 1);
-				room.draw(renderer);
+			} else {
+				renderer.setColor(0.4f, 0.2f, 0.1f, 1);
 			}
+			room.draw(renderer);
 		}
 		for (Room room : rooms) {
 			if (room.isExtra) {
