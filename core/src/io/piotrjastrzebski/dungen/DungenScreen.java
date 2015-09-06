@@ -12,6 +12,7 @@ public class DungenScreen extends BaseScreen {
 	DungeonGenerator generator;
 	Grid grid;
 	GenSettings settings;
+	DungenGUI gui;
 
 	public DungenScreen () {
 		super();
@@ -29,6 +30,10 @@ public class DungenScreen extends BaseScreen {
 
 		grid = new Grid();
 		grid.setSize(settings.getGridSize());
+
+		gui = new DungenGUI();
+		gui.setDefaults(settings);
+		stage.addActor(gui);
 	}
 
 	@Override public void render (float delta) {
@@ -44,6 +49,8 @@ public class DungenScreen extends BaseScreen {
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 		generator.render(renderer);
 		renderer.end();
+		stage.act(delta);
+		stage.draw();
 	}
 
 	@Override public void resize (int width, int height) {
