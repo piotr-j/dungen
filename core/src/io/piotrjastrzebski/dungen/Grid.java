@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 public class Grid {
 	float size;
 	float w, h;
-	Color color = new Color(0.25f, 0.25f, 0.25f, 0.25f);
+	Color color = new Color(0.25f, 0.25f, 0.25f, 1f);
 
 	public void render (ShapeRenderer renderer) {
 		renderer.setColor(color);

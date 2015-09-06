@@ -1,14 +1,12 @@
 package io.piotrjastrzebski.dungen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Created by PiotrJ on 02/09/15.
  */
-public class DungenScreen extends BaseScreen {
+public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 	DungeonGenerator generator;
 	Grid grid;
 	GenSettings settings;
@@ -18,7 +16,7 @@ public class DungenScreen extends BaseScreen {
 		super();
 		settings = new GenSettings()
 			.setGridSize(.25f)
-			.spawnCount(150)
+			.setCount(150)
 			.setSpawnWidth(20).setSpawnHeight(10)
 			.setRoomWidth(4).setRoomHeight(4)
 			.setMainRoomScale(1.15f)
@@ -31,7 +29,7 @@ public class DungenScreen extends BaseScreen {
 		grid = new Grid();
 		grid.setSize(settings.getGridSize());
 
-		gui = new DungenGUI();
+		gui = new DungenGUI(this);
 		gui.setDefaults(settings);
 		stage.addActor(gui);
 	}
@@ -40,7 +38,6 @@ public class DungenScreen extends BaseScreen {
 		super.render(delta);
 		generator.update(delta);
 
-		Gdx.gl.glEnable(GL20.GL_BLEND);
 		renderer.setProjectionMatrix(gameCamera.combined);
 		renderer.begin(ShapeRenderer.ShapeType.Line);
 		grid.render(renderer);
@@ -49,6 +46,7 @@ public class DungenScreen extends BaseScreen {
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 		generator.render(renderer);
 		renderer.end();
+
 		stage.act(delta);
 		stage.draw();
 	}
@@ -61,7 +59,7 @@ public class DungenScreen extends BaseScreen {
 	@Override public boolean keyDown (int keycode) {
 		switch (keycode) {
 		case Input.Keys.SPACE:
-			generator.init(settings);
+			restart(gui.getSettings());
 			break;
 		case Input.Keys.B:
 //			drawBodies = !drawBodies;
@@ -80,5 +78,11 @@ public class DungenScreen extends BaseScreen {
 	@Override public void dispose () {
 		super.dispose();
 		generator.dispose();
+	}
+
+	@Override public void restart (GenSettings settings) {
+		this.settings.copy(settings);
+		generator.init(settings);
+		grid.setSize(settings.getGridSize());
 	}
 }

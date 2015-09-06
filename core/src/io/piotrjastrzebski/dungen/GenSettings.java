@@ -11,6 +11,7 @@ public class GenSettings {
 	private float reconnectChance;
 	private float hallwaysWidth;
 	private int count;
+	private int roomCount;
 
 	public GenSettings () {
 	}
@@ -37,6 +38,10 @@ public class GenSettings {
 		return spawnWidth * gridSize;
 	}
 
+	public float getRawSpawnWidth () {
+		return spawnWidth;
+	}
+
 	public GenSettings setSpawnWidth (float ellipseWidth) {
 		this.spawnWidth = ellipseWidth;
 		return this;
@@ -44,6 +49,11 @@ public class GenSettings {
 
 	public float getSpawnHeight () {
 		return spawnHeight * gridSize;
+	}
+
+
+	public float getRawSpawnHeight () {
+		return spawnHeight;
 	}
 
 	public GenSettings setSpawnHeight (float ellipseHeight) {
@@ -54,6 +64,9 @@ public class GenSettings {
 	public float getRoomWidth () {
 		return roomWidth * gridSize;
 	}
+	public float getRawRoomWidth () {
+		return roomWidth;
+	}
 
 	public GenSettings setRoomWidth (float roomWidth) {
 		this.roomWidth = roomWidth;
@@ -62,6 +75,9 @@ public class GenSettings {
 
 	public float getRoomHeight () {
 		return roomHeight * gridSize;
+	}
+	public float getRawRoomHeight () {
+		return roomHeight;
 	}
 
 	public GenSettings setRoomHeight (float roomHeight) {
@@ -87,7 +103,7 @@ public class GenSettings {
 		return this;
 	}
 
-	public GenSettings spawnCount (int count) {
+	public GenSettings setCount (int count) {
 		this.count = count;
 		return this;
 	}
@@ -106,5 +122,9 @@ public class GenSettings {
 		this.reconnectChance = s.reconnectChance;
 		this.hallwaysWidth = s.hallwaysWidth;
 		this.count = s.count;
+	}
+
+	public void setRoomCount (int roomCount) {
+		this.roomCount = roomCount;
 	}
 }

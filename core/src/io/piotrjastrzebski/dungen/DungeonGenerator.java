@@ -175,10 +175,10 @@ public class DungeonGenerator {
 			triangulate();
 		}
 		graph.render(renderer);
-		renderer.setColor(Color.YELLOW);
-		for (HallwayPath path : paths) {
-			path.draw(renderer);
-		}
+//		renderer.setColor(Color.YELLOW);
+//		for (HallwayPath path : paths) {
+//			path.draw(renderer);
+//		}
 	}
 
 	Array<Room> mainRooms = new Array<>();
