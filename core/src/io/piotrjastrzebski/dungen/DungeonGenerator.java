@@ -1,9 +1,6 @@
 package io.piotrjastrzebski.dungen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.DelaunayTriangulator;
 import com.badlogic.gdx.math.MathUtils;
@@ -18,14 +15,13 @@ import java.util.Comparator;
 /**
  * Created by PiotrJ on 02/09/15.
  */
-public class DungeonGenerator extends BaseScreen {
+public class DungeonGenerator {
 	private int roomID;
 	Array<Room> rooms = new Array<>();
 
 	World b2d;
 	Box2DDebugRenderer b2dd;
 	Vector2 tmp = new Vector2();
-	Grid grid;
 	GenSettings settings;
 	Rectangle map = new Rectangle();
 	boolean drawBodies;
@@ -34,14 +30,12 @@ public class DungeonGenerator extends BaseScreen {
 		super();
 		b2d = new World(new Vector2(), true);
 		b2dd = new Box2DDebugRenderer();
-		settings = new GenSettings().setGridSize(.25f).spawnCount(150).setSpawnWidth(20).setSpawnHeight(10).setRoomWidth(4)
-			.setRoomHeight(4).setMainRoomScale(1.15f).setReconnectChance(.2f).setHallwaysWidth(3);
-
-		grid = new Grid();
-		restart();
+		settings = new GenSettings();
 	}
 
-	private void restart () {
+	public void init (GenSettings settings) {
+		this.settings.copy(settings);
+
 		graph.clear();
 		mainRooms.clear();
 		if (rooms.size > 0) {
@@ -54,7 +48,6 @@ public class DungeonGenerator extends BaseScreen {
 		paths.clear();
 
 		float gridSize = settings.getGridSize();
-		grid.setSize(gridSize);
 		float roomWidth = settings.getRoomWidth();
 		float roomHeight = settings.getRoomHeight();
 		float spawnWidth = settings.getSpawnWidth();
@@ -102,9 +95,9 @@ public class DungeonGenerator extends BaseScreen {
 
 	int pIters = 8;
 
-	@Override public void render (float delta) {
-		super.render(delta);
-		boolean settled = true;
+	boolean settled;
+	public void update (float delta) {
+		settled = true;
 		for (int i = 0; i < pIters; i++) {
 			b2d.step(0.1f, 6, 4);
 			for (Room room : rooms) {
@@ -116,20 +109,16 @@ public class DungeonGenerator extends BaseScreen {
 			if (settled)
 				break;
 		}
-
-		if (drawBodies) {
-			b2dd.render(b2d, gameCamera.combined);
-		}
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		renderer.setProjectionMatrix(gameCamera.combined);
-		renderer.begin(ShapeRenderer.ShapeType.Line);
-
-		grid.draw(renderer);
 		for (Room room : rooms) {
 			room.update();
 		}
-		renderer.end();
-		renderer.begin(ShapeRenderer.ShapeType.Filled);
+	}
+
+	public void render (ShapeRenderer renderer) {
+
+//		if (drawBodies) {
+//			b2dd.render(b2d, gameCamera.combined);
+//		}
 
 		float size = settings.getGridSize();
 		for (Room room : rooms) {
@@ -190,7 +179,6 @@ public class DungeonGenerator extends BaseScreen {
 		for (HallwayPath path : paths) {
 			path.draw(renderer);
 		}
-		renderer.end();
 	}
 
 	Array<Room> mainRooms = new Array<>();
@@ -414,33 +402,7 @@ public class DungeonGenerator extends BaseScreen {
 		return null;
 	}
 
-	@Override public void dispose () {
-		super.dispose();
+	public void dispose () {
 		b2d.dispose();
-	}
-
-	@Override public void resize (int width, int height) {
-		super.resize(width, height);
-		if (grid != null)
-			grid.setViewPort(width, height);
-	}
-
-	@Override public boolean keyDown (int keycode) {
-		switch (keycode) {
-		case Input.Keys.SPACE:
-			restart();
-			break;
-		case Input.Keys.B:
-			drawBodies = !drawBodies;
-			break;
-		case Input.Keys.Q:
-			if (pIters == 8) {
-				pIters = 100;
-			} else {
-				pIters = 8;
-			}
-			break;
-		}
-		return super.keyDown(keycode);
 	}
 }

@@ -12,6 +12,6 @@ public class DungenGame extends Game {
 	public final static float VP_HEIGHT = HEIGHT * INV_SCALE;
 
 	@Override public void create () {
-		setScreen(new DungeonGenerator());
+		setScreen(new DungenScreen());
 	}
 }
