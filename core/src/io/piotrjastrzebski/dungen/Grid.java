@@ -11,7 +11,7 @@ public class Grid {
 	float w, h;
 	Color color = new Color(0.25f, 0.25f, 0.25f, 0.25f);
 
-	public void draw (ShapeRenderer renderer) {
+	public void render (ShapeRenderer renderer) {
 		renderer.setColor(color);
 		int hSegments = (int)(w / size);
 		for (int i = 0; i < hSegments / 2; i++) {
@@ -37,7 +37,7 @@ public class Grid {
 		return this;
 	}
 
-	public void setViewPort (int width, int height) {
+	public void resize (int width, int height) {
 		w = width;
 		h = height;
 	}
