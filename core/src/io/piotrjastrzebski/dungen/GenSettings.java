@@ -95,4 +95,16 @@ public class GenSettings {
 	public int getCount () {
 		return count;
 	}
+
+	public void copy (GenSettings s) {
+		this.gridSize = s.gridSize;
+		this.spawnWidth = s.spawnWidth;
+		this.spawnHeight = s.spawnHeight;
+		this.roomWidth = s.roomWidth;
+		this.roomHeight = s.roomHeight;
+		this.mainRoomScale = s.mainRoomScale;
+		this.reconnectChance = s.reconnectChance;
+		this.hallwaysWidth = s.hallwaysWidth;
+		this.count = s.count;
+	}
 }
