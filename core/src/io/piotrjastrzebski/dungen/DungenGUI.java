@@ -37,75 +37,70 @@ public class DungenGUI extends VisWindow {
 		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3);
 		c.row();
 
-		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.05f);
-		grid.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setGridSize(s.getValue());
+		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.05f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setGridSize(value);
 			}
 		});
 		c.row();
-		count = slider(c, "Room Count", "Number of rooms to be spawned", 50f, 500f, 10f);
-		count.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setCount((int)s.getValue());
+		count = slider(c, "Room Count", "Number of rooms to be spawned", 50f, 500f, 10f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setCount((int)value);
 			}
 		});
 		c.row();
-		sWidth = slider(c, "Spawn Width", "Width of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f);
-		sWidth.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setSpawnWidth(s.getValue());
+		sWidth = slider(c, "Spawn Width", "Width of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setSpawnWidth(value);
 			}
 		});
 		c.row();
-		sHeight = slider(c, "Spawn Height", "Height of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f);
-		sHeight.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setSpawnHeight(s.getValue());
+		sHeight = slider(c, "Spawn Height", "Height of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setSpawnHeight(value);
 			}
 		});
 		c.row();
-		rWidth = slider(c, "Room Width", "Mean room width in grid units", 1f, 10f, 1f);
-		rWidth.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setRoomWidth(s.getValue());
+		rWidth = slider(c, "Room Width", "Mean room width in grid units", 1f, 10f, 1f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setRoomWidth(value);
 			}
 		});
 		c.row();
-		rHeight = slider(c, "Room Height", "Mean room height in grid units", 1f, 10f, 1f);
-		rHeight.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setRoomHeight(s.getValue());
+		rHeight = slider(c, "Room Height", "Mean room height in grid units", 1f, 10f, 1f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setRoomHeight(value);
 			}
 		});
 		c.row();
-		mainScale = slider(c, "Main Scale", "Percent of the mean size for a room to be marked as main", 0.5f, 2.f, 0.05f);
-		mainScale.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setMainRoomScale(s.getValue());
+		mainScale = slider(c, "Main Scale", "Percent of the mean size for a room to be marked as main", 0.5f, 2.f, 0.05f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setMainRoomScale(value);
 			}
 		});
 		c.row();
-		reconChance = slider(c, "Reconnect %", "Chance to reconnect the path after\nminimum spanning tree is created", 0.0f, 1.f, 0.05f);
-		reconChance.addListener(new ChangeListener() {
-			@Override public void changed (ChangeEvent event, Actor actor) {
-				VisSlider s = (VisSlider)actor;
-				settings.setReconnectChance(s.getValue());
+		reconChance = slider(c, "Reconnect %", "Chance to reconnect the path after\nminimum spanning tree is created",
+			0.0f, 1.f, 0.05f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setReconnectChance(value);
 			}
 		});
 		c.row();
 		add(c);
 		pack();
+
+		rHeight = slider(c, "Room Height", "Mean room height in grid units", 1f, 10f, 1f, new SliderAction() {
+			@Override public void setValue (float value) {
+				settings.setRoomHeight(value);
+			}
+		});
 	}
 
-	private VisSlider slider(Table container, String text, String tooltip, float min, float max, float step) {
+	private abstract class SliderAction {
+		public abstract void setValue (float value);
+	}
+
+	private VisSlider slider(Table container, String text, String tooltip, float min, float max, float step, SliderAction action) {
 		VisLabel label = new VisLabel(text);
 		final VisSlider slider = new VisSlider(min, max, step, false);
 		container.add(label).left();
@@ -116,6 +111,7 @@ public class DungenGUI extends VisWindow {
 		slider.addListener(new ChangeListener() {
 			@Override public void changed (ChangeEvent event, Actor actor) {
 				val.setText(toStr(slider.getValue()));
+				action.setValue(slider.getValue());
 			}
 		});
 		val.setAlignment(Align.right);
