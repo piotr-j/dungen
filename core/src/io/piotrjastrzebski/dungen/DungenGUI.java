@@ -105,12 +105,6 @@ public class DungenGUI extends VisWindow {
 		c.row();
 		add(c);
 		pack();
-
-		rHeight = slider(c, "Room Height", "Mean room height in grid units", 1f, 10f, 1f, new SliderAction() {
-			@Override public void setValue (float value) {
-				settings.setRoomHeight(value);
-			}
-		});
 	}
 
 	private abstract class SliderAction {
