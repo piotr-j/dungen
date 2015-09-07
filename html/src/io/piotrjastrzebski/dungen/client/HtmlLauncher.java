@@ -5,6 +5,7 @@ import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import io.piotrjastrzebski.dungen.BaseScreen;
 import io.piotrjastrzebski.dungen.DungenGame;
+import io.piotrjastrzebski.dungen.PlatformBridge;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -13,6 +14,12 @@ public class HtmlLauncher extends GwtApplication {
 	}
 
 	@Override public ApplicationListener getApplicationListener () {
-		return new DungenGame();
+		return new DungenGame(new HtmlBridge());
+	}
+
+	public static class HtmlBridge implements PlatformBridge {
+		@Override public float getPixelScaleFactor () {
+			return 1;
+		}
 	}
 }

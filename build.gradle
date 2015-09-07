@@ -15,7 +15,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = "my-gdx-game"
+        appName = "Dungen"
         gdxVersion = '1.6.5'
         roboVMVersion = '1.6.0'
         box2DLightsVersion = '1.4'
@@ -36,6 +36,8 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
+        // we need this to get Display.getPixelScaleFactor() for proper scaling on retina
+        compile 'org.lwjgl.lwjgl:lwjgl:2.9.2'
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"

@@ -6,12 +6,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kotcrab.vis.ui.VisUI;
 
 /**
  * Created by EvilEntity on 07/06/2015.
@@ -35,7 +32,6 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 	boolean debugStage;
 
 	public BaseScreen () {
-		VisUI.load(VisUI.SkinScale.X1);
 		gameCamera = new OrthographicCamera();
 		gameViewport = new ExtendViewport(DungenGame.VP_WIDTH, DungenGame.VP_HEIGHT, gameCamera);
 		guiCamera = new OrthographicCamera();
@@ -84,7 +80,6 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 		batch.dispose();
 		renderer.dispose();
 		stage.dispose();
-		VisUI.dispose();
 	}
 
 	@Override public boolean keyDown (int keycode) {

@@ -7,8 +7,8 @@ gwt {
     minHeapSize = "1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.mygdx.game.GdxDefinition'
-    devModules 'com.mygdx.game.GdxDefinitionSuperdev'
+    modules 'io.piotrjastrzebski.dungen.GdxDefinition'
+    devModules 'io.piotrjastrzebski.dungen.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {
