@@ -28,7 +28,6 @@ public class GenSettings {
 	private float reconnectChance;
 	private float hallwaysWidth;
 	private int count;
-	private int roomCount;
 
 	public GenSettings () {
 	}
@@ -139,9 +138,5 @@ public class GenSettings {
 		this.reconnectChance = s.reconnectChance;
 		this.hallwaysWidth = s.hallwaysWidth;
 		this.count = s.count;
-	}
-
-	public void setRoomCount (int roomCount) {
-		this.roomCount = roomCount;
 	}
 }
