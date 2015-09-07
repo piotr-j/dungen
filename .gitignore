@@ -1,4 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
+.DS_STORE
+.idea/
+.gradle/
 *.iml
 core/
 desktop/
