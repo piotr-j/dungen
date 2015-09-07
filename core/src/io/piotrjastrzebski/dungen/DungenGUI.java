@@ -146,7 +146,7 @@ public class DungenGUI extends VisWindow {
 		float v = (value - d) * 100;
 		sb.append(d);
 		sb.append(".");
-		sb.append((int)v);
+		sb.append(Math.round(v));
 		return sb.toString();
 	}
 
