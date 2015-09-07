@@ -117,7 +117,7 @@ public class DungenGUI extends VisWindow {
 		public abstract void setValue (float value);
 	}
 
-	private VisSlider slider(Table container, String text, String tooltip, float min, float max, float step, SliderAction action) {
+	private VisSlider slider(Table container, String text, String tooltip, float min, float max, float step, final SliderAction action) {
 		VisLabel label = new VisLabel(text);
 		final VisSlider slider = new VisSlider(min, max, step, false);
 		container.add(label).left();
