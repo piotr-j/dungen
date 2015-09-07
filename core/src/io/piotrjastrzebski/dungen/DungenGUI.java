@@ -32,7 +32,7 @@ public class DungenGUI extends VisWindow {
 		});
 		add(restart).row();
 
-		grid = slider("Grid", 0.1f, 1.f, 0.05f);
+		grid = slider("Grid Size", 0.1f, 1.f, 0.05f);
 		grid.addListener(new ChangeListener() {
 			@Override public void changed (ChangeEvent event, Actor actor) {
 				VisSlider s = (VisSlider)actor;
@@ -40,7 +40,7 @@ public class DungenGUI extends VisWindow {
 			}
 		});
 		row();
-		count = slider("Rooms", 50f, 300f, 10f);
+		count = slider("Room Count", 50f, 300f, 10f);
 		count.addListener(new ChangeListener() {
 			@Override public void changed (ChangeEvent event, Actor actor) {
 				VisSlider s = (VisSlider)actor;
@@ -88,7 +88,7 @@ public class DungenGUI extends VisWindow {
 			}
 		});
 		row();
-		reconChance = slider("Reconnect Chance", 0.0f, 1.f, 0.05f);
+		reconChance = slider("Reconnect %", 0.0f, 1.f, 0.05f);
 		reconChance.addListener(new ChangeListener() {
 			@Override public void changed (ChangeEvent event, Actor actor) {
 				VisSlider s = (VisSlider)actor;
@@ -139,6 +139,7 @@ public class DungenGUI extends VisWindow {
 		rHeight.setValue(settings.getRawRoomHeight());
 		mainScale.setValue(settings.getMainRoomScale());
 		reconChance.setValue(settings.getReconnectChance());
+		pack();
 	}
 
 	public GenSettings getSettings () {
