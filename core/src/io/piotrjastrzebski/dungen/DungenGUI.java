@@ -27,6 +27,8 @@ import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 
+import java.text.DecimalFormat;
+
 public class DungenGUI extends VisWindow {
 	GenSettings settings;
 	VisSlider grid;
@@ -54,7 +56,7 @@ public class DungenGUI extends VisWindow {
 		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3);
 		c.row();
 
-		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.05f, new SliderAction() {
+		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.01f, new SliderAction() {
 			@Override public void setValue (float value) {
 				settings.setGridSize(value);
 			}
@@ -136,11 +138,17 @@ public class DungenGUI extends VisWindow {
 	StringBuilder sb = new StringBuilder();
 	private String toStr(float value) {
 		sb.setLength(0);
-		int d = (int)value;
-		float v = (value - d) * 100;
+		int d = Math.round(value);
 		sb.append(d);
 		sb.append(".");
-		sb.append(Math.round(v));
+		String s = Float.toString((value - d) * 100);
+		if (s.length() > 2) {
+			sb.append(s.charAt(0));
+			char c = s.charAt(1);
+			if (c != '.') sb.append(c);
+		} else {
+			sb.append(s);
+		}
 		return sb.toString();
 	}
 
