@@ -12,6 +12,7 @@
 - Fancy visualizations
 - Stuff and things
 - Fix some bugs
+- Json export
 
 ## Build with:
 - [libgdx](https://github.com/libgdx/libgdx)
