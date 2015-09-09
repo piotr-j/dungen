@@ -19,6 +19,7 @@ package io.piotrjastrzebski.dungen;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Created by PiotrJ on 02/09/15.
@@ -49,6 +50,7 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 		gui = new DungenGUI(this);
 		gui.setDefaults(settings);
 		stage.addActor(gui);
+		multiplexer.addProcessor(this);
 	}
 
 	@Override public void render (float delta) {
@@ -81,6 +83,9 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 		case Input.Keys.B:
 //			drawBodies = !drawBodies;
 			break;
+		case Input.Keys.C:
+			resetCamera();
+			break;
 		case Input.Keys.Q:
 //			if (pIters == 8) {
 //				pIters = 100;
@@ -90,6 +95,18 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 			break;
 		}
 		return super.keyDown(keycode);
+	}
+
+	private void resetCamera () {
+		gameCamera.position.setZero();
+		gameCamera.zoom = 1;
+		gameCamera.update();
+	}
+
+	@Override public boolean scrolled (int amount) {
+		gameCamera.zoom = MathUtils.clamp(gameCamera.zoom + gameCamera.zoom * amount * 0.05f, 0.01f, 10);
+		gameCamera.update();
+		return super.scrolled(amount);
 	}
 
 	@Override public void dispose () {
