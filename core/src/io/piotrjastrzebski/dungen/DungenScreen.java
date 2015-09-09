@@ -19,12 +19,14 @@ package io.piotrjastrzebski.dungen;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by PiotrJ on 02/09/15.
  */
-public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
+public class DungenScreen extends BaseScreen implements DungenGUI.Restarter, GestureDetector.GestureListener {
 	DungeonGenerator generator;
 	Grid grid;
 	GenSettings settings;
@@ -51,6 +53,7 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 		gui.setDefaults(settings);
 		stage.addActor(gui);
 		multiplexer.addProcessor(this);
+		multiplexer.addProcessor(new GestureDetector(this));
 	}
 
 	@Override public void render (float delta) {
@@ -118,5 +121,43 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter {
 		this.settings.copy(settings);
 		generator.init(settings);
 		grid.setSize(settings.getGridSize());
+	}
+
+	@Override public boolean pan (float x, float y, float deltaX, float deltaY) {
+		// this feels wrong...
+		float ppw = gameViewport.getWorldWidth() / gameViewport.getScreenWidth();
+		float pph = gameViewport.getWorldHeight() / gameViewport.getScreenHeight();
+		gameCamera.position.add(-deltaX * ppw * gameCamera.zoom, deltaY * pph * gameCamera.zoom, 0);
+		gameCamera.update();
+		return false;
+	}
+
+	@Override public boolean panStop (float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override public boolean zoom (float initialDistance, float distance) {
+		// TODO touch screen zoom
+		return false;
+	}
+
+	@Override public boolean touchDown (float x, float y, int pointer, int button) {
+		return false;
+	}
+
+	@Override public boolean tap (float x, float y, int count, int button) {
+		return false;
+	}
+
+	@Override public boolean longPress (float x, float y) {
+		return false;
+	}
+
+	@Override public boolean fling (float velocityX, float velocityY, int button) {
+		return false;
+	}
+
+	@Override public boolean pinch (Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+		return false;
 	}
 }
