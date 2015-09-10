@@ -15,7 +15,7 @@
  *
  ******************************************************************************/
 
-package io.piotrjastrzebski.dungen;
+package io.piotrjastrzebski.dungen.gui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -26,10 +26,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import io.piotrjastrzebski.dungen.GenSettings;
 
-import java.text.DecimalFormat;
-
-public class DungenGUI extends VisWindow {
+public class GenSettingsGUI extends VisWindow {
 	GenSettings settings;
 	VisSlider grid;
 	VisSlider count;
@@ -40,8 +39,8 @@ public class DungenGUI extends VisWindow {
 	VisSlider mainScale;
 	VisSlider reconChance;
 
-	public DungenGUI (final Restarter restarter) {
-		super("Settings");
+	public GenSettingsGUI (final Restarter restarter) {
+		super("Generator settings");
 		settings = new GenSettings();
 		VisTable c = new VisTable(true);
 
@@ -169,7 +168,4 @@ public class DungenGUI extends VisWindow {
 		return settings;
 	}
 
-	public interface Restarter {
-		public void restart(GenSettings settings);
-	}
 }

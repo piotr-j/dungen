@@ -22,19 +22,24 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import io.piotrjastrzebski.dungen.gui.DrawSettingsGUI;
+import io.piotrjastrzebski.dungen.gui.GenSettingsGUI;
+import io.piotrjastrzebski.dungen.gui.Restarter;
 
 /**
  * Created by PiotrJ on 02/09/15.
  */
-public class DungenScreen extends BaseScreen implements DungenGUI.Restarter, GestureDetector.GestureListener {
+public class DungenScreen extends BaseScreen implements Restarter, GestureDetector.GestureListener {
 	DungeonGenerator generator;
 	Grid grid;
-	GenSettings settings;
-	DungenGUI gui;
+	GenSettingsGUI genGui;
+	GenSettings genSettings;
+	DrawSettingsGUI drawGui;
+	DrawSettings drawSettings;
 
 	public DungenScreen () {
 		super();
-		settings = new GenSettings()
+		genSettings = new GenSettings()
 			.setGridSize(.25f)
 			.setCount(150)
 			.setSpawnWidth(20).setSpawnHeight(10)
@@ -43,15 +48,23 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter, Ges
 			.setReconnectChance(.2f)
 			.setHallwaysWidth(3);
 
+		drawSettings = new DrawSettings();
+
 		generator = new DungeonGenerator();
-		generator.init(settings);
+		generator.init(genSettings);
 
 		grid = new Grid();
-		grid.setSize(settings.getGridSize());
+		grid.setSize(genSettings.getGridSize());
 
-		gui = new DungenGUI(this);
-		gui.setDefaults(settings);
-		stage.addActor(gui);
+		genGui = new GenSettingsGUI(this);
+		genGui.setDefaults(genSettings);
+		stage.addActor(genGui);
+
+		drawGui = new DrawSettingsGUI(this);
+		drawGui.setDefaults(drawSettings);
+		stage.addActor(drawGui);
+		drawGui.setPosition(0, stage.getHeight()-drawGui.getHeight());
+
 		multiplexer.addProcessor(this);
 		multiplexer.addProcessor(new GestureDetector(this));
 	}
@@ -81,7 +94,7 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter, Ges
 	@Override public boolean keyDown (int keycode) {
 		switch (keycode) {
 		case Input.Keys.SPACE:
-			restart(gui.getSettings());
+			restart(genGui.getSettings());
 			break;
 		case Input.Keys.B:
 //			drawBodies = !drawBodies;
@@ -118,9 +131,13 @@ public class DungenScreen extends BaseScreen implements DungenGUI.Restarter, Ges
 	}
 
 	@Override public void restart (GenSettings settings) {
-		this.settings.copy(settings);
+		this.genSettings.copy(settings);
 		generator.init(settings);
 		grid.setSize(settings.getGridSize());
+	}
+
+	@Override public void update (DrawSettings settings) {
+
 	}
 
 	@Override public boolean pan (float x, float y, float deltaX, float deltaY) {
