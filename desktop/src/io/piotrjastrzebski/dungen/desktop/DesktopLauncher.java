@@ -36,5 +36,9 @@ public class DesktopLauncher {
 		@Override public float getPixelScaleFactor () {
 			return Display.getPixelScaleFactor();
 		}
+
+		@Override public void save (String name, String data) {
+
+		}
 	}
 }

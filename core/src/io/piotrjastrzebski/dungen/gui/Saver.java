@@ -15,12 +15,12 @@
  *
  ******************************************************************************/
 
-package io.piotrjastrzebski.dungen;
+package io.piotrjastrzebski.dungen.gui;
+
 
 /**
- * Created by PiotrJ on 28/07/15.
+ * Created by PiotrJ on 10/09/15.
  */
-public interface PlatformBridge {
-	float getPixelScaleFactor ();
-	void save (String name, String data);
+public interface Saver {
+	void save (String name);
 }

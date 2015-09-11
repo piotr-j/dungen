@@ -17,28 +17,33 @@
 
 package io.piotrjastrzebski.dungen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Base64Coder;
 import io.piotrjastrzebski.dungen.gui.DrawSettingsGUI;
 import io.piotrjastrzebski.dungen.gui.GenSettingsGUI;
 import io.piotrjastrzebski.dungen.gui.Restarter;
+import io.piotrjastrzebski.dungen.gui.Saver;
 
 /**
  * Created by PiotrJ on 02/09/15.
  */
-public class DungenScreen extends BaseScreen implements Restarter, GestureDetector.GestureListener {
+public class DungenScreen extends BaseScreen implements Restarter, Saver, GestureDetector.GestureListener {
 	DungeonGenerator generator;
 	Grid grid;
 	GenSettingsGUI genGui;
 	GenSettings genSettings;
 	DrawSettingsGUI drawGui;
 	DrawSettings drawSettings;
-
-	public DungenScreen () {
+	DungenGame game;
+	public DungenScreen (DungenGame game) {
 		super();
+		this.game = game;
+
 		genSettings = new GenSettings()
 			.setGridSize(.25f)
 			.setCount(150)
@@ -56,7 +61,7 @@ public class DungenScreen extends BaseScreen implements Restarter, GestureDetect
 		grid = new Grid();
 		grid.setSize(genSettings.getGridSize());
 
-		genGui = new GenSettingsGUI(this);
+		genGui = new GenSettingsGUI(this, this);
 		genGui.setDefaults(genSettings);
 		stage.addActor(genGui);
 
@@ -67,6 +72,15 @@ public class DungenScreen extends BaseScreen implements Restarter, GestureDetect
 
 		multiplexer.addProcessor(this);
 		multiplexer.addProcessor(new GestureDetector(this));
+	}
+
+	@Override public void save (String name) {
+		// TODO make a reasonable json representation
+		// TODO pick a name?
+//		game.bridge.save(name + ".json", "welp:{data:0,welp2:welp}");
+	}
+
+	public void saveDungeon() {
 	}
 
 	@Override public void render (float delta) {

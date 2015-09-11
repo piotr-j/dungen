@@ -18,8 +18,15 @@
 package io.piotrjastrzebski.dungen.client;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
+import com.badlogic.gdx.utils.Base64Coder;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.AnchorElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.Window;
 import io.piotrjastrzebski.dungen.BaseScreen;
 import io.piotrjastrzebski.dungen.DungenGame;
 import io.piotrjastrzebski.dungen.PlatformBridge;
@@ -38,5 +45,32 @@ public class HtmlLauncher extends GwtApplication {
 		@Override public float getPixelScaleFactor () {
 			return 1;
 		}
+
+		@Override public void save (String name, String data) {
+			String toSave = "data:application/octet-stream;charset=utf-8;base64,";
+			toSave += Base64Coder.encodeString(data);
+			toSave+="\n";
+			dl(name, toSave);
+		}
+
+		private static native void dl(String filename, String uri)
+/*-{
+    var link = document.createElement('a');
+    if (typeof link.download === 'string') {
+        link.href = uri;
+        link.download = filename;
+
+        //Firefox requires the link to be in the body
+        document.body.appendChild(link);
+
+        //simulate click
+        link.click();
+
+        //remove the link when done
+        document.body.removeChild(link);
+    } else {
+        window.open(uri);
+    }
+}-*/;
 	}
 }

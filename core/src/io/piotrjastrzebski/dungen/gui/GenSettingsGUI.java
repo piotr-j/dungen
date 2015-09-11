@@ -17,15 +17,18 @@
 
 package io.piotrjastrzebski.dungen.gui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
+import io.piotrjastrzebski.dungen.DungenScreen;
 import io.piotrjastrzebski.dungen.GenSettings;
 
 public class GenSettingsGUI extends VisWindow {
@@ -39,7 +42,7 @@ public class GenSettingsGUI extends VisWindow {
 	VisSlider mainScale;
 	VisSlider reconChance;
 
-	public GenSettingsGUI (final Restarter restarter) {
+	public GenSettingsGUI (final Restarter restarter, final Saver saver) {
 		super("Generator settings");
 		settings = new GenSettings();
 		VisTable c = new VisTable(true);
@@ -104,6 +107,14 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		c.row();
+		VisTextButton export = new VisTextButton("Export");
+		export.addListener(new ClickListener() {
+			@Override public void clicked (InputEvent event, float x, float y) {
+				// TODO add a dialog to pick a name?
+				saver.save("dungen");
+			}
+		});
+		add(export).row();
 		add(c);
 		pack();
 	}

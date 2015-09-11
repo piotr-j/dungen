@@ -40,7 +40,7 @@ public class DungenGame extends Game {
 		} else {
 			VisUI.load(VisUI.SkinScale.X1);
 		}
-		setScreen(new DungenScreen());
+		setScreen(new DungenScreen(this));
 	}
 
 	@Override public void dispose () {
