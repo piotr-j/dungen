@@ -39,6 +39,10 @@ public class Room {
 		this.gridSize = gridSize;
 	}
 
+	public boolean isUnused() {
+		return !isMain && !isHallway && !isExtra;
+	}
+
 	public void update () {
 		if (body == null)
 			return;
