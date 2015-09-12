@@ -36,12 +36,12 @@ public class DrawSettingsGUI extends VisWindow {
 	VisCheckBox drawEdges;
 
 	public DrawSettingsGUI (Restarter restarter) {
-		super("Generator settings");
+		super("Display settings");
 		this.restarter = restarter;
 
 		settings = new DrawSettings();
 		VisTable c = new VisTable(true);
-		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3).row();
+		c.add(new VisLabel("Hover for tooltips")).row();
 
 		drawBodies = toggle(c, "Bodies", "Draw box2d bodies used for separation", settings.drawBodies, new Toggle() {
 			@Override public void toggle (boolean value) {
@@ -66,15 +66,16 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawHallWays = value;
 			}
 		});
-		drawHallWayPaths = toggle(c, "Hallway Paths", "Draw hallway paths connecting main rooms", settings.drawHallWayPaths, new Toggle() {
-			@Override public void toggle (boolean value) {
-				settings.drawHallWayPaths = value;
-			}
-		});
 		c.row();
 		drawMain = toggle(c, "Main", "Draw main rooms", settings.drawMain, new Toggle() {
 			@Override public void toggle (boolean value) {
 				settings.drawMain = value;
+			}
+		});
+		c.row();
+		drawHallWayPaths = toggle(c, "Hallway Paths", "Draw hallway paths connecting main rooms", settings.drawHallWayPaths, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawHallWayPaths = value;
 			}
 		});
 		c.row();
