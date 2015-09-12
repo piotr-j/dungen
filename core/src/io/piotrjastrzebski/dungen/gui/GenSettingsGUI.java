@@ -54,8 +54,15 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		c.add(restart);
-		c.row();
-		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3);
+		VisTextButton export = new VisTextButton("Export");
+		export.addListener(new ClickListener() {
+			@Override public void clicked (InputEvent event, float x, float y) {
+				// TODO add a dialog to pick a name?
+				saver.save("dungen");
+			}
+		});
+		c.add(export).row();
+		c.add(new VisLabel("Hover for tooltips")).colspan(3);
 		c.row();
 
 		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.01f, new SliderAction() {
@@ -106,15 +113,6 @@ public class GenSettingsGUI extends VisWindow {
 				settings.setReconnectChance(value);
 			}
 		});
-		c.row();
-		VisTextButton export = new VisTextButton("Export");
-		export.addListener(new ClickListener() {
-			@Override public void clicked (InputEvent event, float x, float y) {
-				// TODO add a dialog to pick a name?
-				saver.save("dungen");
-			}
-		});
-		add(export).row();
 		add(c);
 		pack();
 	}
