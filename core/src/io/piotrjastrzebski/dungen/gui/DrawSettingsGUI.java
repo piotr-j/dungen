@@ -18,43 +18,109 @@
 package io.piotrjastrzebski.dungen.gui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.StringBuilder;
-import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.*;
 import io.piotrjastrzebski.dungen.DrawSettings;
-import io.piotrjastrzebski.dungen.GenSettings;
 
 public class DrawSettingsGUI extends VisWindow {
 	DrawSettings settings;
+	Restarter restarter;
 
-	public DrawSettingsGUI (final Restarter restarter) {
+	VisCheckBox drawMinSpanTree;
+	VisCheckBox drawHallWayPaths;
+	VisCheckBox drawHallWays;
+	VisCheckBox drawBodies;
+	VisCheckBox drawUnused;
+	VisCheckBox drawMain;
+	VisCheckBox drawExtra;
+	VisCheckBox drawEdges;
+
+	public DrawSettingsGUI (Restarter restarter) {
 		super("Generator settings");
+		this.restarter = restarter;
+
 		settings = new DrawSettings();
 		VisTable c = new VisTable(true);
+		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3).row();
 
-		VisTextButton restart = new VisTextButton("Restart");
-		restart.addListener(new ClickListener() {
-			@Override public void clicked (InputEvent event, float x, float y) {
-				restarter.update(settings);
+		drawBodies = toggle(c, "Bodies", "Draw box2d bodies used for separation", settings.drawBodies, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawBodies = value;
 			}
 		});
-		c.add(restart);
 		c.row();
-		c.add(new VisLabel("Hover on labels for tooltips")).colspan(3);
+		drawUnused = toggle(c, "Unused", "Draw rooms that are unused", settings.drawUnused, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawUnused = value;
+			}
+		});
 		c.row();
+		drawExtra = toggle(c, "Extra", "Draw extra rooms, added to form paths", settings.drawExtra, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawExtra = value;
+			}
+		});
+		c.row();
+		drawHallWays = toggle(c, "Hallways", "Draw rooms that are part of hallways", settings.drawHallWays, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawHallWays = value;
+			}
+		});
+		drawHallWayPaths = toggle(c, "Hallway Paths", "Draw hallway paths connecting main rooms", settings.drawHallWayPaths, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawHallWayPaths = value;
+			}
+		});
+		c.row();
+		drawMain = toggle(c, "Main", "Draw main rooms", settings.drawMain, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawMain = value;
+			}
+		});
+		c.row();
+		drawEdges = toggle(c, "Triangulation", "Draw triangulation for main rooms", settings.drawEdges, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawEdges = value;
+			}
+		});
+		c.row();
+		drawMinSpanTree = toggle(c, "Min Span Tree", "Draw minimum spanning tree for main rooms", settings.drawMinSpanTree, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawMinSpanTree = value;
+			}
+		});
 
 		add(c);
 		pack();
 	}
 
+	private VisCheckBox toggle (VisTable c, String text, String tt, boolean def, final Toggle toggle) {
+		final VisCheckBox cb = new VisCheckBox(text, def);
+		new Tooltip(cb, tt);
+		cb.addListener(new ChangeListener() {
+			@Override public void changed (ChangeEvent event, Actor actor) {
+				toggle.toggle(cb.isChecked());
+				restarter.update(settings);
+			}
+		});
+		c.add(cb);
+		return cb;
+	}
+
+	private abstract class Toggle {
+		public abstract void toggle(boolean checked);
+	}
+
 	public void setDefaults(DrawSettings settings) {
 		this.settings.copy(settings);
-
+		drawBodies.setChecked(settings.drawBodies);
+		drawUnused.setChecked(settings.drawUnused);
+		drawExtra.setChecked(settings.drawExtra);
+		drawHallWays.setChecked(settings.drawHallWays);
+		drawHallWayPaths.setChecked(settings.drawHallWayPaths);
+		drawMain.setChecked(settings.drawMain);
+		drawEdges.setChecked(settings.drawEdges);
+		drawMinSpanTree.setChecked(settings.drawMinSpanTree);
 		pack();
 	}
 

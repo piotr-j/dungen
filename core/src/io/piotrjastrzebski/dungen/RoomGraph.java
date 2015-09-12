@@ -58,19 +58,24 @@ public class RoomGraph {
 		nodeA.add(roomB);
 	}
 
-	public void render (ShapeRenderer renderer) {
+	public void render (ShapeRenderer renderer, boolean drawEdges, boolean mst, float grid) {
 		if (edges.size == 0)
 			return;
-		for (RoomEdge e : edges) {
-			if (e.recon) {
-				renderer.setColor(Color.CYAN);
-//			renderer.line(e.ax(), e.ay(), e.bx(), e.by());
-			} else if (e.mst) {
-				renderer.setColor(Color.YELLOW);
-//			renderer.line(e.ax(), e.ay(), e.bx(), e.by());
-			} else {
-//					renderer.setColor(Color.GREEN);
-//				renderer.setColor(Color.CLEAR);
+		if (drawEdges) {
+			for (RoomEdge e : edges) {
+				renderer.setColor(0, 1, 0, 0.5f);
+				renderer.rectLine(e.ax(), e.ay(), e.bx(), e.by(), grid * 0.2f);
+			}
+		}
+		if (mst) {
+			for (RoomEdge e : edges) {
+				if (e.recon) {
+					renderer.setColor(Color.ORANGE);
+					renderer.rectLine(e.ax(), e.ay(), e.bx(), e.by(), grid * 0.4f);
+				} else if (e.mst) {
+					renderer.setColor(Color.PURPLE);
+					renderer.rectLine(e.ax(), e.ay(), e.bx(), e.by(), grid * 0.4f);
+				}
 			}
 		}
 	}

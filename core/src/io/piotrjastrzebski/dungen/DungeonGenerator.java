@@ -17,8 +17,8 @@
 
 package io.piotrjastrzebski.dungen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.DelaunayTriangulator;
 import com.badlogic.gdx.math.MathUtils;
@@ -30,7 +30,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ShortArray;
 
-import java.io.BufferedWriter;
 import java.io.StringWriter;
 import java.util.Comparator;
 
@@ -45,14 +44,15 @@ public class DungeonGenerator {
 	Box2DDebugRenderer b2dd;
 	Vector2 tmp = new Vector2();
 	GenSettings settings;
+	DrawSettings drawSettings;
 	Rectangle map = new Rectangle();
-	boolean drawBodies;
 
 	public DungeonGenerator () {
 		super();
 		b2d = new World(new Vector2(), true);
 		b2dd = new Box2DDebugRenderer();
 		settings = new GenSettings();
+		drawSettings = new DrawSettings();
 	}
 
 	public void init (GenSettings settings) {
@@ -86,6 +86,10 @@ public class DungeonGenerator {
 			createBody(room);
 			rooms.add(room);
 		}
+	}
+
+	public void setDrawSettings (DrawSettings drawSettings) {
+		this.drawSettings.copy(drawSettings);
 	}
 
 	private void createBody (Room room) {
@@ -136,39 +140,52 @@ public class DungeonGenerator {
 		}
 	}
 
-	public void render (ShapeRenderer renderer) {
+	public void render (ShapeRenderer renderer, OrthographicCamera camera) {
+		if (drawSettings.drawBodies) {
+			b2dd.render(b2d, camera.combined);
+		}
 
-//		if (drawBodies) {
-//			b2dd.render(b2d, gameCamera.combined);
-//		}
+		if (mainRooms.size == 0) {
+			renderer.setColor(0.4f, 0.2f, 0.1f, 1);
+			for (Room room : rooms) {
+				room.draw(renderer);
+			}
+		}
 
 		float size = settings.getGridSize();
-		for (Room room : rooms) {
-			if (room.isSleeping() && !room.isExtra && !room.isHallway && !room.isMain) {
-				renderer.setColor(0.3f, 0.3f, 0.3f, 1);
-			} else {
-				renderer.setColor(0.4f, 0.2f, 0.1f, 1);
-			}
-			room.draw(renderer);
+		if (drawSettings.drawUnused) {
+			renderer.setColor(0.3f, 0.3f, 0.3f, 1);
+			for (Room room : rooms) {
+				if (room.isUnused()) {
+					room.draw(renderer);
+				}
 		}
-		for (Room room : rooms) {
-			if (room.isExtra) {
-				renderer.setColor(0.8f, 0.8f, 0.8f, 1);
-				room.draw(renderer);
-			}
-		}
-		for (Room room : rooms) {
-			if (room.isHallway) {
-				renderer.setColor(0.2f, 0.4f, 1, 1);
-				room.draw(renderer);
+	}
+
+		if (drawSettings.drawExtra) {
+			renderer.setColor(0.8f, 0.8f, 0.8f, 1);
+			for (Room room : rooms) {
+				if (room.isExtra) {
+					room.draw(renderer);
+				}
 			}
 		}
-		for (Room room : rooms) {
-			if (room.isMain) {
-				renderer.setColor(1, 0.2f, 0.1f, 1);
-				room.draw(renderer);
+		if (drawSettings.drawHallWays) {
+			renderer.setColor(0.2f, 0.4f, 1, 1);
+			for (Room room : rooms) {
+				if (room.isHallway) {
+					room.draw(renderer);
+				}
 			}
 		}
+			if (drawSettings.drawMain) {
+				for (Room room : rooms) {
+					if (room.isMain) {
+						renderer.setColor(1, 0.2f, 0.1f, 1);
+						room.draw(renderer);
+					}
+				}
+			}
 		if (settled && mainRooms.size == 0) {
 			float mw = settings.getRoomWidth() * settings.getMainRoomScale();
 			float mh = settings.getRoomHeight() * settings.getMainRoomScale();
@@ -196,11 +213,13 @@ public class DungeonGenerator {
 			});
 			triangulate();
 		}
-		graph.render(renderer);
-//		renderer.setColor(Color.YELLOW);
-//		for (HallwayPath path : paths) {
-//			path.draw(renderer);
-//		}
+		graph.render(renderer, drawSettings.drawEdges, drawSettings.drawMinSpanTree, size);
+		if (drawSettings.drawHallWayPaths) {
+			renderer.setColor(Color.YELLOW);
+			for (HallwayPath path : paths) {
+				path.draw(renderer);
+			}
+		}
 	}
 
 	Array<Room> mainRooms = new Array<>();

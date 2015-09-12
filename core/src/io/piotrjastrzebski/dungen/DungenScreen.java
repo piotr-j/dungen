@@ -54,7 +54,11 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 			.setReconnectChance(.2f)
 			.setHallwaysWidth(3);
 
-		drawSettings = new DrawSettings();
+		drawSettings = new DrawSettings()
+			.setDrawExtra(true)
+			.setDrawMain(true)
+			.setDrawHallWays(true)
+			.setDrawUnused(true);
 
 		generator = new DungeonGenerator();
 		generator.init(genSettings);
@@ -93,7 +97,7 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 		renderer.end();
 
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
-		generator.render(renderer);
+		generator.render(renderer, gameCamera);
 		renderer.end();
 
 		stage.act(delta);
@@ -151,7 +155,7 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 	}
 
 	@Override public void update (DrawSettings settings) {
-
+		generator.setDrawSettings(settings);
 	}
 
 	@Override public boolean pan (float x, float y, float deltaX, float deltaY) {
