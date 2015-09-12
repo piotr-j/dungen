@@ -24,6 +24,7 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.JsonWriter;
 import io.piotrjastrzebski.dungen.gui.DrawSettingsGUI;
 import io.piotrjastrzebski.dungen.gui.GenSettingsGUI;
 import io.piotrjastrzebski.dungen.gui.Restarter;
@@ -75,12 +76,11 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 	}
 
 	@Override public void save (String name) {
-		// TODO make a reasonable json representation
-		// TODO pick a name?
-//		game.bridge.save(name + ".json", "welp:{data:0,welp2:welp}");
-	}
-
-	public void saveDungeon() {
+		// TODO settings for type and pretty print
+		String json = generator.toJson(JsonWriter.OutputType.javascript, true);
+		if (!name.endsWith(".json"))
+			name += ".json";
+		game.bridge.save(name, json);
 	}
 
 	@Override public void render (float delta) {

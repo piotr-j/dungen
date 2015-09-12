@@ -17,6 +17,7 @@
 
 package io.piotrjastrzebski.dungen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.DelaunayTriangulator;
@@ -25,8 +26,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import com.badlogic.gdx.utils.ShortArray;
 
+import java.io.BufferedWriter;
+import java.io.StringWriter;
 import java.util.Comparator;
 
 /**
@@ -421,5 +426,56 @@ public class DungeonGenerator {
 
 	public void dispose () {
 		b2d.dispose();
+	}
+
+	public String toJson (JsonWriter.OutputType outputType, boolean pretty) {
+		Json json = new Json(outputType);
+		StringWriter writer = new StringWriter();
+		json.setWriter(writer);
+		json.writeObjectStart();
+		json.writeValue("grid-size", settings.getGridSize());
+		json.writeArrayStart("rooms");
+		for (Room room : rooms) {
+			if (room.isUnused())
+				continue;
+			json.writeObjectStart();
+			json.writeValue("id", room.id);
+			if (room.isMain) {
+				json.writeValue("type", "main");
+			} else if (room.isHallway) {
+				json.writeValue("type", "hallway");
+			} else if (room.isExtra) {
+				json.writeValue("type", "extra");
+			}
+			json.writeValue("bounds", room.bounds);
+			json.writeObjectEnd();
+		}
+		json.writeArrayEnd();
+		json.writeArrayStart("paths");
+		for (HallwayPath path : paths) {
+			json.writeObjectStart();
+			json.writeValue("id", path.id);
+			json.writeValue("start-room", path.roomA.id);
+			json.writeValue("end-room", path.roomB.id);
+			json.writeValue("start", path.start);
+			if (path.hasBend) {
+				json.writeValue("mid", path.bend);
+			}
+			json.writeValue("start", path.end);
+			json.writeArrayStart("overlaps");
+			for (Room room : path.overlap) {
+				json.writeValue(room.id);
+			}
+			json.writeArrayEnd();
+			json.writeObjectEnd();
+		}
+		json.writeArrayEnd();
+		json.writeObjectEnd();
+
+		if (pretty) {
+			return json.prettyPrint(writer.toString());
+		} else {
+			return writer.toString();
+		}
 	}
 }
