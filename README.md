@@ -1,6 +1,6 @@
 # Dungeon generator
 
-# Features
+## Features
 - A lot of settings.
 - Toggles for visualization
 - Json export
