@@ -287,10 +287,15 @@ public class DungeonGenerator {
 
 	private void createHallways () {
 		Array<RoomEdge> edges = graph.getEdges();
+		float grid = settings.getGridSize();
+		// offset mid position by half grid if the width is odd so we can easily find rooms we need for hallways
+		int hallwaysWidth = settings.getHallwaysWidth();
+		float offset = (hallwaysWidth%2==1)?grid / 2:0;
+
 		for (RoomEdge e : edges) {
 			if (!e.mst)
 				continue;
-			HallwayPath path = new HallwayPath(settings.getGridSize());
+			HallwayPath path = new HallwayPath(grid, hallwaysWidth);
 			Rectangle bA = e.roomA.bounds;
 			Rectangle bB = e.roomB.bounds;
 			float min, max, mid;
@@ -303,7 +308,7 @@ public class DungeonGenerator {
 				min = (bA.x < bB.x) ? bB.x : bA.x;
 				max = (bA.x + bA.width < bB.x + bB.width) ? bA.x + bA.width : bB.x + bB.width;
 				mid = (min + max) / 2;
-
+				mid = Utils.roundToSize(mid, grid) - offset;
 				if (bA.y > bB.y) {
 					path.set(mid, bA.y, mid, bB.y + bB.height);
 				} else {
@@ -318,7 +323,7 @@ public class DungeonGenerator {
 				min = (bA.y < bB.y) ? bB.y : bA.y;
 				max = (bA.y + bA.height < bB.y + bB.height) ? bA.y + bA.height : bB.y + bB.height;
 				mid = (min + max) / 2;
-
+				mid = Utils.roundToSize(mid, grid) - offset;
 				if (bA.x > bB.x) {
 					path.set(bA.x, mid, bB.x + bB.width, mid);
 				} else {
@@ -335,11 +340,13 @@ public class DungeonGenerator {
 				float bw = bB.width;
 				float bh = bB.height;
 				float mx, my;
-				// pick a side
+				// pick a side of the bend
 				// can we make this simpler? im dumb
 				if (MathUtils.randomBoolean()) {
 					mx = ax + aw / 2;
 					my = by + bh / 2;
+					mx = Utils.roundToSize(mx, grid) - offset;
+					my = Utils.roundToSize(my, grid) - offset;
 					if (ax < bx) {
 						if (ay < by) {
 							path.set(mx, ay + ah, mx, my, bx, my);
@@ -356,6 +363,8 @@ public class DungeonGenerator {
 				} else {
 					mx = bx + bw / 2;
 					my = ay + ah / 2;
+					mx = Utils.roundToSize(mx, grid) - offset;
+					my = Utils.roundToSize(my, grid) - offset;
 					if (ax < bx) {
 						if (ay < by) {
 							path.set(ax + aw, my, mx, my, mx, by);
@@ -392,28 +401,28 @@ public class DungeonGenerator {
 
 		for (HallwayPath path : paths) {
 			if (path.hasBend) {
-				createRooms(path.start, path.bend);
-				createRooms(path.bend, path.end);
+				createRooms(path.hallA);
+				createRooms(path.hallB);
 			} else {
-				createRooms(path.start, path.end);
+				createRooms(path.hallA);
 			}
 		}
 	}
 
-	private void createRooms (Vector2 start, Vector2 end) {
-		tmp.set(end).sub(start);
-		float len = tmp.len();
-		float size = settings.getGridSize();
-		tmp.set(start);
-		int num = (int)(len / size);
-		int scaleX = (int)Math.signum(end.x - start.x);
-		int scaleY = (int)Math.signum(end.y - start.y);
-		for (int i = 0; i <= num; i++) {
-			createRoom(tmp.x - size, tmp.y, size);
-			createRoom(tmp.x, tmp.y, size);
-			createRoom(tmp.x - size, tmp.y, size);
-			createRoom(tmp.x - size, tmp.y - size, size);
-			tmp.add(size * scaleX, size * scaleY);
+	private void createRooms (Rectangle r) {
+		float grid = settings.getGridSize();
+		float x = Utils.roundToSize(r.x, grid);
+		float w = Utils.roundToSize(r.width, grid);
+		float y = Utils.roundToSize(r.y, grid);
+		float h = Utils.roundToSize(r.height, grid);
+
+		int gw = (int)(w / grid);
+		int gh = (int)(h / grid);
+
+		for (int rx = 0; rx < gw; rx++) {
+			for (int ry = 0; ry < gh; ry++) {
+				createRoom(x + rx * grid, y + ry * grid, grid);
+			}
 		}
 	}
 

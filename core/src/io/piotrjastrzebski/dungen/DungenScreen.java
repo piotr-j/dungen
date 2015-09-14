@@ -50,7 +50,7 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 			.setRoomWidth(4).setRoomHeight(4)
 			.setMainRoomScale(1.15f)
 			.setReconnectChance(.2f)
-			.setHallwaysWidth(3);
+			.setHallwaysWidth(2);
 
 		drawSettings = new DrawSettings()
 			.setDrawExtra(true)
