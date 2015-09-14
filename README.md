@@ -1,5 +1,10 @@
 # Dungeon generator
 
+# Features
+- A lot of settings.
+- Toggles for visualization
+- Json export
+
 ## Inspiration
 
 [this reddit post](https://www.reddit.com/r/gamedev/comments/1dlwc4/procedural_dungeon_generation_algorithm_explained/) and [that blog post](https://github.com/adonaac/blog/issues/7) 
@@ -9,10 +14,7 @@
 ![screenshot](core/assets/ss-v1.png)
 
 ## TODO:
-- Fancy visualizations
-- Stuff and things
-- Fix some bugs
-- Json export
+- ???
 
 ## Build with:
 - [libgdx](https://github.com/libgdx/libgdx)
