@@ -26,17 +26,17 @@ public class GenSettings {
 	private float roomWidth, roomHeight;
 	private float mainRoomScale;
 	private float reconnectChance;
-	private float hallwaysWidth;
+	private int hallwaysWidth;
 	private int count;
 
 	public GenSettings () {
 	}
 
-	public float getHallwaysWidth () {
+	public int getHallwaysWidth () {
 		return hallwaysWidth;
 	}
 
-	public GenSettings setHallwaysWidth (float hallwaysWidth) {
+	public GenSettings setHallwaysWidth (int hallwaysWidth) {
 		this.hallwaysWidth = hallwaysWidth;
 		return this;
 	}
