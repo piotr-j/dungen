@@ -104,7 +104,7 @@ public class DrawSettingsGUI extends VisWindow {
 				restarter.update(settings);
 			}
 		});
-		c.add(cb);
+		c.add(cb).left();
 		return cb;
 	}
 
