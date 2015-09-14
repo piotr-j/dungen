@@ -41,6 +41,7 @@ public class GenSettingsGUI extends VisWindow {
 	VisSlider rHeight;
 	VisSlider mainScale;
 	VisSlider reconChance;
+	VisSlider hallWidth;
 
 	public GenSettingsGUI (final Restarter restarter, final Saver saver) {
 		super("Generator settings");
@@ -114,6 +115,13 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		add(c);
+		hallWidth = slider(c, "Hallway width", "Width of hallways in grid units",
+			1, 10, 1, new SliderAction() {
+				@Override public void setValue (float value) {
+					settings.setHallwaysWidth((int)value);
+				}
+			});
+		add(c);
 		pack();
 	}
 
@@ -170,6 +178,7 @@ public class GenSettingsGUI extends VisWindow {
 		rHeight.setValue(settings.getRawRoomHeight());
 		mainScale.setValue(settings.getMainRoomScale());
 		reconChance.setValue(settings.getReconnectChance());
+		hallWidth.setValue(settings.getHallwaysWidth());
 		pack();
 	}
 
