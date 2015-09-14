@@ -490,7 +490,7 @@ public class DungeonGenerator {
 			if (path.hasBend) {
 				json.writeValue("mid", path.bend);
 			}
-			json.writeValue("start", path.end);
+			json.writeValue("end", path.end);
 			json.writeArrayStart("overlaps");
 			for (Room room : path.overlap) {
 				json.writeValue(room.id);
