@@ -17,13 +17,11 @@
 
 package io.piotrjastrzebski.dungen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.JsonWriter;
 import io.piotrjastrzebski.dungen.gui.DrawSettingsGUI;
 import io.piotrjastrzebski.dungen.gui.GenSettingsGUI;
@@ -87,9 +85,29 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 		game.bridge.save(name, json);
 	}
 
+	private int moveVert;
+	private int moveHor;
+	private int zoom;
 	@Override public void render (float delta) {
 		super.render(delta);
 		generator.update(delta);
+		if (zoom > 0) {
+			gameCamera.zoom = MathUtils.clamp(gameCamera.zoom + gameCamera.zoom * 0.05f, 0.01f, 10);
+		} else if (zoom < 0) {
+			gameCamera.zoom = MathUtils.clamp(gameCamera.zoom - gameCamera.zoom * 0.05f, 0.01f, 10);
+
+		}
+		if (moveVert > 0) {
+			gameCamera.position.y += 10 * delta;
+		} else if (moveVert < 0) {
+			gameCamera.position.y -= 10 * delta;
+		}
+		if (moveHor > 0) {
+			gameCamera.position.x += 10 * delta;
+		} else if (moveHor < 0) {
+			gameCamera.position.x -= 10 * delta;
+		}
+		gameCamera.update();
 
 		renderer.setProjectionMatrix(gameCamera.combined);
 		renderer.begin(ShapeRenderer.ShapeType.Line);
@@ -114,18 +132,59 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 		case Input.Keys.SPACE:
 			restart(genGui.getSettings());
 			break;
-		case Input.Keys.B:
-//			drawBodies = !drawBodies;
-			break;
 		case Input.Keys.C:
 			resetCamera();
 			break;
 		case Input.Keys.Q:
-//			if (pIters == 8) {
-//				pIters = 100;
-//			} else {
-//				pIters = 8;
-//			}
+			zoom++;
+			break;
+		case Input.Keys.E:
+			zoom--;
+			break;
+		case Input.Keys.UP:
+		case Input.Keys.W:
+			moveVert++;
+			break;
+		case Input.Keys.DOWN:
+		case Input.Keys.S:
+			moveVert--;
+			break;
+		case Input.Keys.LEFT:
+		case Input.Keys.A:
+			moveHor--;
+			break;
+		case Input.Keys.RIGHT:
+		case Input.Keys.D:
+			moveHor++;
+			break;
+		}
+		return super.keyDown(keycode);
+	}
+
+
+	@Override public boolean keyUp (int keycode) {
+		switch (keycode) {
+		case Input.Keys.Q:
+			zoom--;
+			break;
+		case Input.Keys.E:
+			zoom++;
+			break;
+		case Input.Keys.UP:
+		case Input.Keys.W:
+			moveVert--;
+			break;
+		case Input.Keys.DOWN:
+		case Input.Keys.S:
+			moveVert++;
+			break;
+		case Input.Keys.LEFT:
+		case Input.Keys.A:
+			moveHor++;
+			break;
+		case Input.Keys.RIGHT:
+		case Input.Keys.D:
+			moveHor--;
 			break;
 		}
 		return super.keyDown(keycode);
