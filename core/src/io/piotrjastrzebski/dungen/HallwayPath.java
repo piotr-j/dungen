@@ -48,12 +48,11 @@ public class HallwayPath {
 
 	Vector2 tmp = new Vector2();
 	public void draw (ShapeRenderer renderer) {
+		renderer.setColor(Color.ORANGE);
 		if (hasBend) {
-			renderer.setColor(Color.ORANGE);
 			renderer.rectLine(start.x, start.y, bend.x, bend.y, gridSize * 0.1f);
 			renderer.rectLine(bend.x, bend.y, end.x, end.y, gridSize * 0.1f);
 		} else {
-			renderer.setColor(Color.YELLOW);
 			renderer.rectLine(start.x, start.y, end.x, end.y, gridSize * 0.1f);
 		}
 	}
