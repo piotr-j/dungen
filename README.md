@@ -11,7 +11,7 @@
 
 ##[Web version](https://piotr-j.github.io/dungen/dungen/)
 
-![screenshot](core/assets/ss-v1.png)
+![screenshot](core/assets/ss-v2.png)
 
 ## TODO:
 - ???
