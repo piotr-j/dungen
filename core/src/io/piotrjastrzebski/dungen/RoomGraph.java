@@ -73,7 +73,7 @@ public class RoomGraph {
 					renderer.setColor(Color.ORANGE);
 					renderer.rectLine(e.ax(), e.ay(), e.bx(), e.by(), grid * 0.4f);
 				} else if (e.mst) {
-					renderer.setColor(Color.PURPLE);
+					renderer.setColor(Color.LIME);
 					renderer.rectLine(e.ax(), e.ay(), e.bx(), e.by(), grid * 0.4f);
 				}
 			}

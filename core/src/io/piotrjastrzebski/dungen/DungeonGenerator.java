@@ -296,6 +296,7 @@ public class DungeonGenerator {
 			if (!e.mst)
 				continue;
 			HallwayPath path = new HallwayPath(grid, hallwaysWidth);
+			path.recon = e.recon;
 			Rectangle bA = e.roomA.bounds;
 			Rectangle bB = e.roomB.bounds;
 			float min, max, mid;

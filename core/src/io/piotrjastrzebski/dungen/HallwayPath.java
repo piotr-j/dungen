@@ -34,6 +34,7 @@ public class HallwayPath {
 	public Rectangle hallA = new Rectangle();
 	public Rectangle hallB = new Rectangle();
 	public boolean hasBend;
+	public boolean recon;
 	public int width = 1;
 	public Room roomA;
 	public Room roomB;
@@ -48,12 +49,16 @@ public class HallwayPath {
 
 	Vector2 tmp = new Vector2();
 	public void draw (ShapeRenderer renderer) {
-		renderer.setColor(Color.ORANGE);
-		if (hasBend) {
-			renderer.rectLine(start.x, start.y, bend.x, bend.y, gridSize * 0.1f);
-			renderer.rectLine(bend.x, bend.y, end.x, end.y, gridSize * 0.1f);
+		if (recon) {
+			renderer.setColor(Color.ORANGE);
 		} else {
-			renderer.rectLine(start.x, start.y, end.x, end.y, gridSize * 0.1f);
+			renderer.setColor(Color.LIME);
+		}
+		if (hasBend) {
+			renderer.rectLine(start.x, start.y, bend.x, bend.y, gridSize * 0.33f);
+			renderer.rectLine(bend.x, bend.y, end.x, end.y, gridSize * 0.33f);
+		} else {
+			renderer.rectLine(start.x, start.y, end.x, end.y, gridSize * 0.33f);
 		}
 	}
 
