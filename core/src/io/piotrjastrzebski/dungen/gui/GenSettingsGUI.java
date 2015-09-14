@@ -66,7 +66,7 @@ public class GenSettingsGUI extends VisWindow {
 		c.add(new VisLabel("Hover for tooltips")).colspan(3);
 		c.row();
 
-		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.01f, new SliderAction() {
+		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.05f, new SliderAction() {
 			@Override public void setValue (float value) {
 				settings.setGridSize(value);
 			}
@@ -155,16 +155,10 @@ public class GenSettingsGUI extends VisWindow {
 	StringBuilder sb = new StringBuilder();
 	private String toStr(float value) {
 		sb.setLength(0);
-		int d = Math.round(value);
-		sb.append(d);
-		sb.append(".");
-		String s = Float.toString((value - d) * 100);
-		if (s.length() > 2) {
-			sb.append(s.charAt(0));
-			char c = s.charAt(1);
-			if (c != '.') sb.append(c);
-		} else {
-			sb.append(s);
+		sb.append(value);
+		int dot = sb.indexOf(".");
+		if (dot > 0 && sb.length() > dot + 3) {
+			sb.setLength(dot + 3);
 		}
 		return sb.toString();
 	}
