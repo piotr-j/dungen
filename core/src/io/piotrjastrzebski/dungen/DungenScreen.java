@@ -17,16 +17,19 @@
 
 package io.piotrjastrzebski.dungen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.JsonWriter;
-import io.piotrjastrzebski.dungen.gui.DrawSettingsGUI;
-import io.piotrjastrzebski.dungen.gui.GenSettingsGUI;
-import io.piotrjastrzebski.dungen.gui.Restarter;
-import io.piotrjastrzebski.dungen.gui.Saver;
+import com.kotcrab.vis.ui.widget.VisTable;
+import com.kotcrab.vis.ui.widget.VisTextButton;
+import io.piotrjastrzebski.dungen.gui.*;
 
 /**
  * Created by PiotrJ on 02/09/15.
@@ -39,6 +42,9 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 	DrawSettingsGUI drawGui;
 	DrawSettings drawSettings;
 	DungenGame game;
+
+	HelpGUI helpGUI;
+
 	public DungenScreen (DungenGame game) {
 		super();
 		this.game = game;
@@ -67,14 +73,34 @@ public class DungenScreen extends BaseScreen implements Restarter, Saver, Gestur
 		genGui = new GenSettingsGUI(this, this);
 		genGui.setDefaults(genSettings);
 		stage.addActor(genGui);
+		genGui.setPosition(10, 10);
 
 		drawGui = new DrawSettingsGUI(this);
 		drawGui.setDefaults(drawSettings);
 		stage.addActor(drawGui);
-		drawGui.setPosition(0, stage.getHeight()-drawGui.getHeight());
+		drawGui.setPosition(10, stage.getHeight() - drawGui.getHeight() - 10);
 
 		multiplexer.addProcessor(this);
 		multiplexer.addProcessor(new GestureDetector(this));
+
+		helpGUI = new HelpGUI();
+		VisTable helpCont = new VisTable();
+		helpCont.setFillParent(true);
+		VisTextButton showHelp = new VisTextButton("Help!");
+		showHelp.addListener(new ClickListener() {
+			@Override public void clicked (InputEvent event, float x, float y) {
+				helpGUI.show(stage);
+			}
+		});
+		helpCont.add(showHelp).right().top().expand().pad(10);
+		stage.addActor(helpCont);
+
+		Preferences dungen = Gdx.app.getPreferences("Dungen");
+		if (!dungen.getBoolean("help-shown", false)) {
+			helpGUI.show(stage);
+			dungen.putBoolean("help-shown", true);
+			dungen.flush();
+		}
 	}
 
 	@Override public void save (String name) {
