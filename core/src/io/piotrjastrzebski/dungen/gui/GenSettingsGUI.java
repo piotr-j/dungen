@@ -115,6 +115,7 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		add(c);
+		c.row();
 		hallWidth = slider(c, "Hallway width", "Width of hallways in grid units",
 			1, 10, 1, new SliderAction() {
 				@Override public void setValue (float value) {
