@@ -17,8 +17,6 @@
 
 package io.piotrjastrzebski.dungen.gui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.kotcrab.vis.ui.VisUI;
@@ -37,6 +35,7 @@ public class DrawSettingsGUI extends VisWindow {
 	VisCheckBox drawMain;
 	VisCheckBox drawExtra;
 	VisCheckBox drawEdges;
+	VisCheckBox drawSpawnArea;
 
 	public DrawSettingsGUI (Restarter restarter) {
 		super("Display settings");
@@ -99,6 +98,12 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawMinSpanTree = value;
 			}
 		});
+		c.row();
+		drawSpawnArea = toggle(c, "Spawn Area", "Draw initial spawn area of rooms", settings.drawSpawnArea, new Toggle() {
+			@Override public void toggle (boolean value) {
+				settings.drawSpawnArea = value;
+			}
+		});
 
 		add(c);
 		pack();
@@ -131,6 +136,7 @@ public class DrawSettingsGUI extends VisWindow {
 		drawMain.setChecked(settings.drawMain);
 		drawEdges.setChecked(settings.drawEdges);
 		drawMinSpanTree.setChecked(settings.drawMinSpanTree);
+		drawSpawnArea.setChecked(settings.drawSpawnArea);
 		pack();
 	}
 

@@ -29,6 +29,7 @@ public class DrawSettings {
 	public boolean drawMain;
 	public boolean drawExtra;
 	public boolean drawEdges;
+	public boolean drawSpawnArea;
 
 	public DrawSettings () {
 
@@ -43,6 +44,7 @@ public class DrawSettings {
 		this.drawMain = o.drawMain;
 		this.drawExtra = o.drawExtra;
 		this.drawEdges = o.drawEdges;
+		this.drawSpawnArea = o.drawSpawnArea;
 	}
 
 	public DrawSettings setDrawMinSpanTree (boolean drawMinSpanTree) {
@@ -82,6 +84,11 @@ public class DrawSettings {
 
 	public DrawSettings setDrawEdges (boolean drawEdges) {
 		this.drawEdges = drawEdges;
+		return this;
+	}
+
+	public DrawSettings setDrawSpawnArea (boolean drawSpawnArea) {
+		this.drawSpawnArea = drawSpawnArea;
 		return this;
 	}
 }

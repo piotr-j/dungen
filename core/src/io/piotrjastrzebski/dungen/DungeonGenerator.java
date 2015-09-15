@@ -19,6 +19,7 @@ package io.piotrjastrzebski.dungen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.DelaunayTriangulator;
@@ -220,6 +221,13 @@ public class DungeonGenerator {
 			for (HallwayPath path : paths) {
 				path.draw(renderer);
 			}
+		}
+		if (drawSettings.drawSpawnArea) {
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			renderer.setColor(1, 1, 1, 0.5f);
+			renderer.ellipse(
+				-settings.getSpawnWidth()/2, -settings.getSpawnHeight()/2,
+				settings.getSpawnWidth(), settings.getSpawnHeight());
 		}
 	}
 
