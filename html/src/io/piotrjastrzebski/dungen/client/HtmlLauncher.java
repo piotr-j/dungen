@@ -34,7 +34,10 @@ import io.piotrjastrzebski.dungen.PlatformBridge;
 public class HtmlLauncher extends GwtApplication {
 
 	@Override public GwtApplicationConfiguration getConfig () {
-		return new GwtApplicationConfiguration(DungenGame.WIDTH, DungenGame.HEIGHT);
+		GwtApplicationConfiguration config = new GwtApplicationConfiguration(DungenGame.WIDTH,
+			DungenGame.HEIGHT);
+		config.antialiasing = true;
+		return config;
 	}
 
 	@Override public ApplicationListener getApplicationListener () {

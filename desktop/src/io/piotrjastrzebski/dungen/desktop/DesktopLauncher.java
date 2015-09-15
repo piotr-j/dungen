@@ -29,6 +29,7 @@ public class DesktopLauncher {
 		config.width = DungenGame.WIDTH;
 		config.height = DungenGame.HEIGHT;
 		config.useHDPI = true;
+		config.samples = 4;
 		new LwjglApplication(new DungenGame(new DesktopBridge()), config);
 	}
 
