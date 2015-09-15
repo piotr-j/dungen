@@ -73,7 +73,7 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		c.row();
-		count = slider(c, "Room Count", "Number of rooms to be spawned", 50f, 500f, 10f, new SliderAction() {
+		count = slider(c, "Room Count", "Number of rooms to be spawned", 50f, 1000f, 10f, new SliderAction() {
 			@Override public void setValue (float value) {
 				settings.setCount((int)value);
 			}
@@ -126,7 +126,7 @@ public class GenSettingsGUI extends VisWindow {
 		add(c);
 		c.row();
 		b2dIters = slider(c, "B2D Iterations", "Iterations per frame for settling bodies, more -> faster settling",
-			5, 250, 5, new SliderAction() {
+			5, 1000, 5, new SliderAction() {
 				@Override public void setValue (float value) {
 					settings.setB2bIters((int)value);
 				}
