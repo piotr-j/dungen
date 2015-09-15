@@ -39,6 +39,8 @@ public class HelpGUI extends VisDialog {
 			}
 		});
 		c.add(link).row();
+		c.add(new VisLabel("Setting panels are movable")).row();
+		c.add().row();
 		c.add(new VisLabel("WSAD/arrows to pan view")).row();
 		c.add(new VisLabel("Left click and drag to pan view")).row();
 		c.add(new VisLabel("Q/E to zoom in/out")).row();
