@@ -56,8 +56,7 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawUnused = value;
 			}
 		});
-		c.row();
-		drawExtra = toggle(c, "[#cccccc]extra[]", "Draw [#cccccc]extra[] rooms, added to form paths", settings.drawExtra, new Toggle() {
+		drawExtra = toggle(c, "[#cccccc]Extra[]", "Draw [#cccccc]extra[] rooms, added to form paths", settings.drawExtra, new Toggle() {
 			@Override public void toggle (boolean value) {
 				settings.drawExtra = value;
 			}
@@ -68,7 +67,6 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawHallWays = value;
 			}
 		});
-		c.row();
 		drawMain = toggle(c, "[#ff3319]Main[]", "Draw [#ff3319]main[] rooms", settings.drawMain, new Toggle() {
 			@Override public void toggle (boolean value) {
 				settings.drawMain = value;
@@ -83,10 +81,9 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawHallWayPaths = value;
 			}
 		});
-		c.row();
-		drawEdges = toggle(c, "Triangulation", "Draw triangulation for main rooms", settings.drawEdges, new Toggle() {
+		drawSpawnArea = toggle(c, "Spawn Area", "Draw initial spawn area of rooms", settings.drawSpawnArea, new Toggle() {
 			@Override public void toggle (boolean value) {
-				settings.drawEdges = value;
+				settings.drawSpawnArea = value;
 			}
 		});
 		c.row();
@@ -98,10 +95,9 @@ public class DrawSettingsGUI extends VisWindow {
 				settings.drawMinSpanTree = value;
 			}
 		});
-		c.row();
-		drawSpawnArea = toggle(c, "Spawn Area", "Draw initial spawn area of rooms", settings.drawSpawnArea, new Toggle() {
+		drawEdges = toggle(c, "Triangulation", "Draw triangulation for main rooms", settings.drawEdges, new Toggle() {
 			@Override public void toggle (boolean value) {
-				settings.drawSpawnArea = value;
+				settings.drawEdges = value;
 			}
 		});
 

@@ -55,7 +55,6 @@ public class GenSettingsGUI extends VisWindow {
 				restarter.restart(settings);
 			}
 		});
-		c.add(restart);
 		VisTextButton export = new VisTextButton("Export");
 		export.addListener(new ClickListener() {
 			@Override public void clicked (InputEvent event, float x, float y) {
@@ -63,8 +62,11 @@ public class GenSettingsGUI extends VisWindow {
 				saver.save("dungen");
 			}
 		});
-		c.add(export).row();
-		c.add(new VisLabel("Hover for tooltips")).colspan(3);
+		VisTable top = new VisTable(true);
+		top.add(restart);
+		top.add(export).expandX();
+		top.add(new VisLabel("Hover for tooltips"));
+		c.add(top).expandX().fillX().colspan(3);
 		c.row();
 
 		grid = slider(c, "Grid Size", "Size of the grid in units\n1u=32px at 720p", 0.1f, 1.f, 0.05f, new SliderAction() {
@@ -117,7 +119,7 @@ public class GenSettingsGUI extends VisWindow {
 		});
 		add(c);
 		c.row();
-		hallWidth = slider(c, "Hallway width", "Width of hallways in grid units",
+		hallWidth = slider(c, "Hallway Width", "Width of hallways in grid units",
 			1, 10, 1, new SliderAction() {
 				@Override public void setValue (float value) {
 					settings.setHallwaysWidth((int)value);
