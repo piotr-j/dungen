@@ -28,6 +28,7 @@ public class GenSettings {
 	private float reconnectChance;
 	private int hallwaysWidth;
 	private int count;
+	private int b2bIters;
 
 	public GenSettings () {
 	}
@@ -128,6 +129,15 @@ public class GenSettings {
 		return count;
 	}
 
+	public GenSettings setB2bIters (int b2bIters) {
+		this.b2bIters = b2bIters;
+		return this;
+	}
+
+	public int getB2bIters () {
+		return b2bIters;
+	}
+
 	public void copy (GenSettings s) {
 		this.gridSize = s.gridSize;
 		this.spawnWidth = s.spawnWidth;
@@ -138,5 +148,6 @@ public class GenSettings {
 		this.reconnectChance = s.reconnectChance;
 		this.hallwaysWidth = s.hallwaysWidth;
 		this.count = s.count;
+		this.b2bIters = s.b2bIters;
 	}
 }

@@ -42,6 +42,7 @@ public class GenSettingsGUI extends VisWindow {
 	VisSlider mainScale;
 	VisSlider reconChance;
 	VisSlider hallWidth;
+	VisSlider b2dIters;
 
 	public GenSettingsGUI (final Restarter restarter, final Saver saver) {
 		super("Generator settings");
@@ -123,6 +124,14 @@ public class GenSettingsGUI extends VisWindow {
 				}
 			});
 		add(c);
+		c.row();
+		b2dIters = slider(c, "B2D Iterations", "Iterations per frame for settling bodies, more -> faster settling",
+			5, 250, 5, new SliderAction() {
+				@Override public void setValue (float value) {
+					settings.setB2bIters((int)value);
+				}
+			});
+		add(c);
 		pack();
 	}
 
@@ -174,6 +183,7 @@ public class GenSettingsGUI extends VisWindow {
 		mainScale.setValue(settings.getMainRoomScale());
 		reconChance.setValue(settings.getReconnectChance());
 		hallWidth.setValue(settings.getHallwaysWidth());
+		b2dIters.setValue(settings.getB2bIters());
 		pack();
 	}
 

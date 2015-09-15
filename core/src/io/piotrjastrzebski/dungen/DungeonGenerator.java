@@ -17,6 +17,7 @@
 
 package io.piotrjastrzebski.dungen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -119,13 +120,13 @@ public class DungeonGenerator {
 		room.body = body;
 	}
 
-	int pIters = 8;
-
 	boolean settled;
 	public void update (float delta) {
+		// no need to run this if we have rooms
+		if (mainRooms.size > 0) return;
 		settled = true;
-		for (int i = 0; i < pIters; i++) {
-			b2d.step(0.1f, 6, 4);
+		for (int i = 0; i < settings.getB2bIters(); i++) {
+			b2d.step(0.16f, 6, 4);
 			for (Room room : rooms) {
 				if (!room.isSleeping()) {
 					settled = false;
@@ -159,8 +160,8 @@ public class DungeonGenerator {
 				if (room.isUnused()) {
 					room.draw(renderer);
 				}
+			}
 		}
-	}
 
 		if (drawSettings.drawExtra) {
 			renderer.setColor(0.8f, 0.8f, 0.8f, 1);
@@ -178,14 +179,14 @@ public class DungeonGenerator {
 				}
 			}
 		}
-			if (drawSettings.drawMain) {
-				for (Room room : rooms) {
-					if (room.isMain) {
-						renderer.setColor(1, 0.2f, 0.1f, 1);
-						room.draw(renderer);
-					}
+		if (drawSettings.drawMain) {
+			for (Room room : rooms) {
+				if (room.isMain) {
+					renderer.setColor(1, 0.2f, 0.1f, 1);
+					room.draw(renderer);
 				}
 			}
+		}
 		if (settled && mainRooms.size == 0) {
 			float mw = settings.getRoomWidth() * settings.getMainRoomScale();
 			float mh = settings.getRoomHeight() * settings.getMainRoomScale();
