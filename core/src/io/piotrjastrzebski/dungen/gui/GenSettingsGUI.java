@@ -79,13 +79,13 @@ public class GenSettingsGUI extends VisWindow {
 			}
 		});
 		c.row();
-		sWidth = slider(c, "Spawn Width", "Width of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f, new SliderAction() {
+		sWidth = slider(c, "Spawn Width", "Width of the ellipse the rooms will be spawned in\nin grid units", 5f, 100f, 5f, new SliderAction() {
 			@Override public void setValue (float value) {
 				settings.setSpawnWidth(value);
 			}
 		});
 		c.row();
-		sHeight = slider(c, "Spawn Height", "Height of the ellipse the rooms will be spawned in\nin grid units", 5f, 40f, 5f, new SliderAction() {
+		sHeight = slider(c, "Spawn Height", "Height of the ellipse the rooms will be spawned in\nin grid units", 5f, 100f, 5f, new SliderAction() {
 			@Override public void setValue (float value) {
 				settings.setSpawnHeight(value);
 			}
